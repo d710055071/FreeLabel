@@ -1,29 +1,31 @@
 
 import os
-from qtpy.QtWidgets import QMainWindow
-from qtpy.QtWidgets import QAction 
-from qtpy.QtWidgets import QMenu
 from qtpy import QtGui
+from qtpy.QtWidgets import QAction
+from qtpy.QtWidgets import QMainWindow
+from qtpy.QtWidgets import QMenu
+
 
 current_path = os.path.dirname(os.path.abspath(__file__))
 
+
 def createIcon(icon):
-    icon_dir = os.path.join(current_path,"../icons")
+    icon_dir = os.path.join(current_path, "../icons")
     return QtGui.QIcon(os.path.join(":/", icon_dir, "%s.svg" % icon))
 
+
 def create_action(
-    parent_widget : QMainWindow,
-    text : str,
-    slot = None,
-    tip : str = "",
-    icon = None,
-    shortcut = None,
-    checkable = False,
-    enabled = True,
-    checked = False,
+    parent_widget: QMainWindow,
+    text: str,
+    slot=None,
+    tip: str = "",
+    icon=None,
+    shortcut=None,
+    checkable=False,
+    enabled=True,
+    checked=False,
 ):
-    """
-    创建一个动作
+    """创建一个动作
 
     Args:
         parent_widget (QMainWindow): 父窗口对象
@@ -35,15 +37,16 @@ def create_action(
         enabled (bool, optional): 可用状态. Defaults to True.
         checked (bool, optional): 选中状态. Defaults to False.
     """
-    action = QAction(text,parent_widget)
+
+    action = QAction(text, parent_widget)
 
     if slot is not None:
         action.triggered.connect(slot)
-    
+
     if len(tip) > 0:
         action.setToolTip(tip)
         action.setStatusTip(tip)
-    
+
     if icon is not None:
         action.setIconText(text.replace(" ", "\n"))
         action.setIcon(createIcon(icon))
@@ -60,7 +63,9 @@ def create_action(
     action.setChecked(checked)
 
     return action
-def add_actions(widget,actions):
+
+
+def add_actions(widget, actions):
     for action in actions:
         if action is None:
             widget.addSeparator()
@@ -69,10 +74,6 @@ def add_actions(widget,actions):
         else:
             widget.addAction(action)
 
-def create_menu(
-    widget : QMainWindow ,
-    title : str,
-    actions = None,
 
-):
+def create_menu(widget: QMainWindow, title: str, actions=None):
     return widget.menuBar().addMenu(title)
